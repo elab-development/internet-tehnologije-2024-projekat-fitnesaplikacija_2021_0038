@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ProfileController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -15,8 +16,17 @@ use App\Http\Controllers\AuthController;
 */
 
 
-
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
+
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/profiles', [ProfileController::class, 'index']);
+    Route::get('/profiles/{id}', [ProfileController::class, 'show']);
+    Route::post('/profiles', [ProfileController::class, 'store']);
+    Route::put('/profiles/{id}', [ProfileController::class, 'update']);
+    Route::delete('/profiles/{id}', [ProfileController::class, 'destroy']);
+});
+
+
 
