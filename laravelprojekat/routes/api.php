@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\TrainingController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -27,6 +29,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/profiles', [ProfileController::class, 'store']);
     Route::put('/profiles/{id}', [ProfileController::class, 'update']);
     Route::delete('/profiles/{id}', [ProfileController::class, 'destroy']);
+
+    Route::resource('trainings', TrainingController::class)->only([
+        'index', 'show', 'store', 'update', 'destroy'
+    ]);
 });
 
 
