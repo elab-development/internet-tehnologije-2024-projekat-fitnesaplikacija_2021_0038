@@ -10,11 +10,24 @@ use App\Http\Resources\TrainingResource;
 
 class TrainingController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $trainings = Training::where('user_id', Auth::id())->get();
-        return response()->json(TrainingResource::collection($trainings), 200);
+        $perPage = $request->query('per_page', 10); // Broj elemenata po stranici (default 10)
+    
+        $trainings = Training::where('user_id', Auth::id())
+            ->paginate($perPage);
+    
+        return response()->json([
+            'data' => TrainingResource::collection($trainings->items()),
+            'meta' => [
+                'current_page' => $trainings->currentPage(),
+                'per_page' => $trainings->perPage(),
+                'total' => $trainings->total(),
+                'last_page' => $trainings->lastPage(),
+            ]
+        ], 200);
     }
+    
 
     public function show($id)
     {
