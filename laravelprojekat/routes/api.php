@@ -41,6 +41,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
 
 
+    //za admin deo za seminarski
     Route::get('/notifications', [NotificationController::class, 'index']);
     Route::get('/notifications/{id}', [NotificationController::class, 'show']);
     Route::post('/notifications', [NotificationController::class, 'store']);
