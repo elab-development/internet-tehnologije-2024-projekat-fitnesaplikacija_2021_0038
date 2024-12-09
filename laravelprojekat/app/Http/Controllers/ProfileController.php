@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Resources\ProfileResource;
+use Illuminate\Support\Facades\Storage;
 
 class ProfileController extends Controller
 {
@@ -30,13 +31,21 @@ class ProfileController extends Controller
             'height' => 'required|integer|min:100|max:250',
             'goal' => 'required|string|in:lose weight,maintain weight,gain weight',
             'calories_per_day' => 'required|integer|min:1000|max:4000',
+            'profile_picture' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 422);
         }
 
-        $profile = Profile::create(array_merge($request->all(), ['user_id' => Auth::id()]));
+        $data = $request->all();
+        $data['user_id'] = Auth::id();
+
+        if ($request->hasFile('profile_picture')) {
+            $data['profile_picture'] = $request->file('profile_picture')->store('profiles', 'public');
+        }
+
+        $profile = Profile::create($data);
 
         return response()->json(new ProfileResource($profile), 201);
     }
@@ -51,13 +60,25 @@ class ProfileController extends Controller
             'height' => 'required|integer|min:100|max:250',
             'goal' => 'required|string|in:lose weight,maintain weight,gain weight',
             'calories_per_day' => 'required|integer|min:1000|max:4000',
+            'profile_picture' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 422);
         }
 
-        $profile->update($request->all());
+        $data = $request->all();
+
+        if ($request->hasFile('profile_picture')) {
+            // Brisanje stare slike ako postoji
+            if ($profile->profile_picture) {
+                Storage::disk('public')->delete($profile->profile_picture);
+            }
+
+            $data['profile_picture'] = $request->file('profile_picture')->store('profiles', 'public');
+        }
+
+        $profile->update($data);
 
         return response()->json(new ProfileResource($profile), 200);
     }
@@ -65,6 +86,11 @@ class ProfileController extends Controller
     public function destroy($id)
     {
         $profile = Profile::where('user_id', Auth::id())->findOrFail($id);
+
+        if ($profile->profile_picture) {
+            Storage::disk('public')->delete($profile->profile_picture);
+        }
+
         $profile->delete();
 
         return response()->json(['message' => 'Profile deleted successfully'], 200);
