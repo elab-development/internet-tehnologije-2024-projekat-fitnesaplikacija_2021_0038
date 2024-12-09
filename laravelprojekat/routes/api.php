@@ -3,6 +3,8 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\DiaryEntryController;
+use App\Http\Controllers\ExerciseController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\TrainingController;
@@ -33,16 +35,19 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::resource('trainings', TrainingController::class)->only([
         'index', 'show', 'store', 'update', 'destroy'
     ]);
-});
+
+    Route::apiResource('exercises', ExerciseController::class);
+    Route::apiResource('diary-entries', DiaryEntryController::class);
 
 
 
-
-
-Route::middleware('auth:sanctum')->group(function () {
     Route::get('/notifications', [NotificationController::class, 'index']);
     Route::get('/notifications/{id}', [NotificationController::class, 'show']);
     Route::post('/notifications', [NotificationController::class, 'store']);
     Route::put('/notifications/{id}', [NotificationController::class, 'update']);
     Route::delete('/notifications/{id}', [NotificationController::class, 'destroy']);
 });
+
+
+
+ 
