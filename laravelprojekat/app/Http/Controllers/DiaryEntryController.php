@@ -6,13 +6,13 @@ use App\Models\DiaryEntry;
 use App\Http\Resources\DiaryEntryResource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-
+ 
 class DiaryEntryController extends Controller
 {
     public function index()
     {
         $userId = auth()->id(); // Koristimo ID ulogovanog korisnika
-        $entries = DiaryEntry::where('user_id', $userId)->get();
+        $entries = DiaryEntry::where('user_id', $userId)->orderBy('date', 'desc')->get();
         return response()->json(DiaryEntryResource::collection($entries));
     }
 
