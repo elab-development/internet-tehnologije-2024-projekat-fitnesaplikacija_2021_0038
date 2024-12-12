@@ -46,7 +46,7 @@ const HomePage = () => {
           </div>
           <div className="feature-card">
             <FaDumbbell size={60} color="#e64a19" />
-            <h3>Detaljni Planovi treninga</h3>
+            <h3>Detaljni planovi treninga</h3>
             <p>Pristup bogatoj bazi vežbi, izradi treninge i prati svaku seriju i ponavljanje.</p>
           </div>
           <div className="feature-card">
@@ -86,7 +86,7 @@ const HomePage = () => {
 
       {/* Testimonials */}
       <section className="testimonials-section" id="testimonials">
-        <h2>Šta Kažu Naši Korisnici</h2>
+        <h2>Šta kažu naši korisnici</h2>
         <div className="testimonials-grid">
           <div className="testimonial-card">
             <IoIosPeople size={60} color="#ff5722" />
