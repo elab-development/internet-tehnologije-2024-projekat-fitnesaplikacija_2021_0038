@@ -1,0 +1,358 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Roboto', sans-serif; /* Prilagodite font po želji */
+  }
+  
+  body {
+    background: #fafafa;
+    color: #333;
+  }
+  
+  /* Navigacija */
+  .navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background: #0c0c0c;
+    color: #fff;
+  }
+  
+  .navbar-logo {
+    display: flex;
+    align-items: center;
+  }
+  
+  .navbar-logo img {
+    height: 40px;
+    margin-right: 10px;
+  }
+  
+  .navbar-logo h1 {
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
+  
+  .navbar-links a {
+    margin-left: 20px;
+    color: #fff;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s;
+  }
+  
+  .navbar-links a:hover {
+    color: #efefef;
+  }
+  
+  /* Hero Section */
+  .hero-section {
+    display: flex;
+    padding: 50px 20px;
+    background: linear-gradient(to right, #f2f2f2 50%, #e2e2e2 50%);
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  
+  .hero-content {
+    flex: 1;
+    max-width: 500px;
+  }
+  
+  .hero-content h2 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    font-weight: 700;
+  }
+  
+  .hero-content p {
+    font-size: 1.1rem;
+    margin-bottom: 20px;
+    color: #555;
+  }
+  
+  .primary-btn {
+    background: #ff5722;
+    padding: 15px 30px;
+    border: none;
+    cursor: pointer;
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 5px;
+    transition: background 0.3s;
+  }
+  
+  .primary-btn:hover {
+    background: #e64a19;
+  }
+  
+  .hero-image {
+    flex: 1;
+    text-align: center;
+  }
+  
+  .hero-image img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+  }
+  
+  /* Features Section */
+  .features-section {
+    padding: 60px 20px;
+    text-align: center;
+  }
+  
+  .features-section h2 {
+    font-size: 2rem;
+    margin-bottom: 40px;
+  }
+  
+  .features-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 40px;
+  }
+  
+  .feature-card {
+    background: #fff;
+    padding: 30px 20px;
+    border-radius: 10px;
+    max-width: 300px;
+    text-align: center;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  }
+  
+  .feature-card img {
+    height: 60px;
+    margin-bottom: 20px;
+  }
+  
+  .feature-card h3 {
+    margin-bottom: 10px;
+    font-size: 1.3rem;
+    font-weight: 600;
+  }
+  
+  .feature-card p {
+    color: #555;
+  }
+  
+  /* Plans Section */
+  .plans-section {
+    background: #fff;
+    padding: 60px 20px;
+    text-align: center;
+  }
+  
+  .plans-section h2 {
+    font-size: 2rem;
+    margin-bottom: 40px;
+  }
+  
+  .plans-grid {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 40px;
+  }
+  
+  .plan-card {
+    background: #f9f9f9;
+    padding: 30px 20px;
+    border-radius: 10px;
+    width: 250px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  }
+  
+  .plan-card h3 {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+  }
+  
+  .plan-card ul {
+    list-style: none;
+    margin-bottom: 20px;
+  }
+  
+  .plan-card ul li {
+    margin-bottom: 10px;
+    color: #555;
+  }
+  
+  .secondary-btn {
+    background: #333;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background 0.3s;
+  }
+  
+  .secondary-btn:hover {
+    background: #555;
+  }
+  
+  /* Journal Section */
+  .journal-section {
+    padding: 60px 20px;
+    text-align: center;
+  }
+  
+  .journal-section h2 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+  }
+  
+  .journal-section p {
+    max-width: 600px;
+    margin: 0 auto 40px auto;
+    color: #555;
+  }
+  
+  .journal-preview {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 40px;
+    align-items: center;
+  }
+  
+  .journal-preview img {
+    max-width: 400px;
+    border-radius: 10px;
+  }
+  
+  .journal-info h4 {
+    font-size: 1.4rem;
+    margin-bottom: 10px;
+  }
+  
+  .journal-info p {
+    margin-bottom: 20px;
+    color: #555;
+  }
+  
+  /* Testimonials Section */
+  .testimonials-section {
+    padding: 60px 20px;
+    background: #f2f2f2;
+    text-align: center;
+  }
+  
+  .testimonials-section h2 {
+    font-size: 2rem;
+    margin-bottom: 40px;
+  }
+  
+  .testimonials-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 40px;
+    justify-content: center;
+  }
+  
+  .testimonial-card {
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 300px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    text-align: center;
+  }
+  
+  .testimonial-card img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    margin-bottom: 20px;
+    object-fit: cover;
+  }
+  
+  .testimonial-card blockquote {
+    font-style: italic;
+    margin-bottom: 20px;
+    color: #555;
+  }
+  
+  .testimonial-name {
+    font-weight: 600;
+    font-size: 1rem;
+  }
+  
+  /* CTA Section */
+  .cta-section {
+    background: linear-gradient(to right, #ff5722, #e64a19);
+    padding: 60px 20px;
+    text-align: center;
+    color: #fff;
+  }
+  
+  .cta-section h2 {
+    font-size: 2rem;
+    margin-bottom: 30px;
+  }
+  
+  /* Footer */
+  .footer {
+    background: #0c0c0c;
+    color: #fff;
+    padding: 30px 20px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .footer-content {
+    display: flex;
+    align-items: center;
+  }
+  
+  .footer-content img {
+    height: 30px;
+    margin-right: 10px;
+  }
+  
+  .footer-content p {
+    margin-left: 10px;
+    font-size: 0.9rem;
+  }
+  
+  .footer-links a {
+    color: #fff;
+    margin-left: 20px;
+    text-decoration: none;
+    font-size: 0.9rem;
+  }
+  
+  .footer-links a:hover {
+    color: #ccc;
+  }
+  
+  /* Responsivnost */
+  @media (max-width: 768px) {
+    .hero-section {
+      flex-direction: column;
+    }
+  
+    .features-grid, .plans-grid, .testimonials-grid, .journal-preview {
+      flex-direction: column;
+      align-items: center;
+    }
+  
+    .navbar-links a {
+      margin: 0 10px;
+    }
+  
+    .navbar-links {
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+  }
+  
