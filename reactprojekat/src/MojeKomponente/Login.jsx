@@ -3,6 +3,7 @@ import axios from 'axios';
 import InputField from './InputField';
 import Button from './Button';
 import './Login.css';
+import { useNavigate } from 'react-router-dom';
 
 const Login = ({ setUser }) => {
   const [formData, setFormData] = useState({
@@ -12,7 +13,7 @@ const Login = ({ setUser }) => {
 
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
-
+  let navigate= useNavigate();
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -41,7 +42,7 @@ const Login = ({ setUser }) => {
 
       setSuccess('Prijava uspešna!');
       setError('');
-
+      navigate('/dashboard')
       // Resetovanje formData
       setFormData({ email: '', password: '' });
     } catch (err) {
