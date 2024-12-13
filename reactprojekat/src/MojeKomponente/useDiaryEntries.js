@@ -11,7 +11,7 @@ const useDiaryEntries = () => {
     setLoading(true);
     setError(null);
 
-    const token = sessionStorage.getItem('token'); // Dohvatanje tokena iz sessionStorage
+    const token = sessionStorage.getItem('auth_token'); // Dohvatanje tokena iz sessionStorage
 
     if (!token) {
       setError('Niste prijavljeni. Token nije pronađen.');

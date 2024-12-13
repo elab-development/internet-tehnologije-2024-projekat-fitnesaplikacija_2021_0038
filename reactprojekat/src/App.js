@@ -5,6 +5,7 @@ import HomePage from './MojeKomponente/HomePage';
 import Register from './MojeKomponente/Register';
 import Login from './MojeKomponente/Login';
 import Navbar from './MojeKomponente/Navbar';
+import DiaryViewer from './MojeKomponente/DiaryViewer';
 
 function App() {
   const [user, setUser] = useState(() => {
@@ -25,6 +26,8 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login setUser={setUser} />} />
+          <Route path="/diary" element={<DiaryViewer   />} />
+
           <Route
             path="/dashboard"
             element={
