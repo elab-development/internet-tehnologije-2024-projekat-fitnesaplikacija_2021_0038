@@ -7,21 +7,7 @@ import { IoIosPeople } from 'react-icons/io';
 
 const HomePage = () => {
   return (
-    <div className="homepage-container">
-      {/* Navigacija */}
-      <header className="navbar">
-        <div className="navbar-logo">
-          <FaDumbbell size={40} color="#ff5722" />
-          <h1>FitLife</h1>
-        </div>
-        <nav className="navbar-links">
-          <a href="#features">Funkcionalnosti</a>
-          <a href="#plans">Treninzi</a>
-          <a href="#journal">Dnevnik</a>
-          <a href="#testimonials">Iskustva</a>
-          <a href="#join">Prijavi se</a>
-        </nav>
-      </header>
+    <div className="homepage-container"> 
 
       {/* Hero Sekcija */}
       <section className="hero-section">
