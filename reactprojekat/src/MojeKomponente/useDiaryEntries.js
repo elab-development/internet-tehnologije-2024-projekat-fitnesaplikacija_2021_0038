@@ -26,7 +26,7 @@ const useDiaryEntries = () => {
         },
       });
 
-      setEntries(response.data.data); // Postavljanje preuzetih unosa
+      setEntries(response.data); // Postavljanje preuzetih unosa
     } catch (err) {
       setError(err.response ? err.response.data.message : 'Greška prilikom učitavanja.');
     } finally {
