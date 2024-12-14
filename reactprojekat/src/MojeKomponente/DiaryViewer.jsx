@@ -7,9 +7,15 @@ const DiaryViewer = () => {
   const { entries = [], loading, error, setEntries } = useDiaryEntries();
   const [currentPage, setCurrentPage] = useState(0); 
   const [newEntry, setNewEntry] = useState({ date: '', content: '' });
+  const [filterDate, setFilterDate] = useState(''); // Datum za filtriranje
+
+  // Filtrirani unosi na osnovu datuma
+  const filteredEntries = filterDate
+    ? entries.filter((entry) => entry.date === filterDate)
+    : entries;
 
   const handleNextPage = () => {
-    if (currentPage < entries.length - 1) {
+    if (currentPage < filteredEntries.length - 1) {
       setCurrentPage(currentPage + 1);
     }
   };
@@ -44,7 +50,7 @@ const DiaryViewer = () => {
   if (loading) return <p>Učitavanje dnevnika...</p>;
   if (error) return <p className="error">{error}</p>;
 
-  const currentEntry = entries.length > 0 ? entries[currentPage] : null;
+  const currentEntry = filteredEntries.length > 0 ? filteredEntries[currentPage] : null;
 
   return (
     <div className="diary-outer-container">
@@ -64,13 +70,22 @@ const DiaryViewer = () => {
             onChange={(e) => setNewEntry({ ...newEntry, content: e.target.value })}
             placeholder="Sadržaj unosa"
           />
-          <button className="add-entry-button" onClick={handleCreateEntry}>Dodaj unos</button>
+          <button className="add-entry-button" onClick={handleCreateEntry}>Dodaj Unos</button>
+
+          <h3 className="filter-title">Filtriraj po datumu</h3>
+          <input
+            type="date"
+            className="filter-date-input"
+            value={filterDate}
+            onChange={(e) => setFilterDate(e.target.value)}
+            placeholder="Filtriraj datum"
+          />
         </div>
 
         <div className="diary-right-page">
-          {entries.length === 0 ? (
+          {filteredEntries.length === 0 ? (
             <div className="empty-page">
-              <p>Nema dostupnih unosa.</p>
+              <p>Nema dostupnih unosa za odabrani datum.</p>
             </div>
           ) : (
             <>
@@ -87,12 +102,12 @@ const DiaryViewer = () => {
                   &#8592; Prethodna
                 </button>
                 <span className="page-indicator">
-                  Stranica {currentPage + 1} od {entries.length}
+                  Stranica {currentPage + 1} od {filteredEntries.length}
                 </span>
                 <button
                   className="page-button"
                   onClick={handleNextPage}
-                  disabled={currentPage === entries.length - 1}
+                  disabled={currentPage === filteredEntries.length - 1}
                 >
                   Sledeća &#8594;
                 </button>

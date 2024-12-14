@@ -151,3 +151,19 @@ body {
   color: red;
   text-align: center;
 }
+.filter-title {
+  margin-top: 20px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #5a4633;
+}
+
+.filter-date-input {
+  width: 100%;
+  margin-top: 10px;
+  padding: 10px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background: rgba(255,255,255,0.8);
+}
