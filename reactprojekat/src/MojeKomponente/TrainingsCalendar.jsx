@@ -1,23 +1,23 @@
-import React from 'react';
+import React, { useState } from 'react';
 import useTrainings from './useTrainings';
+import CalendarDay from './CalendarDay';
 import './TrainingsCalendar.css';
 
 const TrainingsCalendar = () => {
   const { trainings, loading, error } = useTrainings();
 
-  const currentDate = new Date();
-  const year = currentDate.getFullYear();
-  const month = currentDate.getMonth(); // 0-based index
-  const daysInMonth = new Date(year, month + 1, 0).getDate();
+  const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth());
+  const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
 
+  const daysInMonth = new Date(selectedYear, selectedMonth + 1, 0).getDate();
   const daysArray = Array.from({ length: daysInMonth }, (_, index) => index + 1);
 
   const getTrainingsForDay = (day) => {
     return trainings.filter((training) => {
       const trainingDate = new Date(training.date);
       return (
-        trainingDate.getFullYear() === year &&
-        trainingDate.getMonth() === month &&
+        trainingDate.getFullYear() === selectedYear &&
+        trainingDate.getMonth() === selectedMonth &&
         trainingDate.getDate() === day
       );
     });
@@ -28,21 +28,38 @@ const TrainingsCalendar = () => {
 
   return (
     <div className="calendar-container">
-      <h2>Kalendar treninga za {currentDate.toLocaleString('default', { month: 'long', year: 'numeric' })}</h2>
+      <h2>Kalendar treninga</h2>
+      
+      {/* Selektori za mesec i godinu */}
+      <div className="calendar-controls">
+        <select
+          value={selectedMonth}
+          onChange={(e) => setSelectedMonth(parseInt(e.target.value, 10))}
+        >
+          {Array.from({ length: 12 }, (_, i) => (
+            <option key={i} value={i}>
+              {new Date(0, i).toLocaleString('default', { month: 'long' })}
+            </option>
+          ))}
+        </select>
+        <select
+          value={selectedYear}
+          onChange={(e) => setSelectedYear(parseInt(e.target.value, 10))}
+        >
+          {Array.from({ length: 10 }, (_, i) => {
+            const year = new Date().getFullYear() - 5 + i;
+            return (
+              <option key={year} value={year}>
+                {year}
+              </option>
+            );
+          })}
+        </select>
+      </div>
+
       <div className="calendar-grid">
         {daysArray.map((day) => (
-          <div key={day} className="calendar-day">
-            <div className="day-number">{day}</div>
-            <div className="trainings-list">
-              {getTrainingsForDay(day).map((training) => (
-                <div key={training.id} className="training-item">
-                  <strong>{training.title}</strong>
-                  <p>{training.duration} min</p>
-                  <p>{training.difficulty}</p>
-                </div>
-              ))}
-            </div>
-          </div>
+          <CalendarDay key={day} day={day} trainings={getTrainingsForDay(day)} />
         ))}
       </div>
     </div>
