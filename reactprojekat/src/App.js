@@ -6,6 +6,7 @@ import Register from './MojeKomponente/Register';
 import Login from './MojeKomponente/Login';
 import Navbar from './MojeKomponente/Navbar';
 import DiaryViewer from './MojeKomponente/DiaryViewer';
+import TrainingsCalendar from './MojeKomponente/TrainingsCalendar';
 
 function App() {
   const [user, setUser] = useState(() => {
@@ -27,20 +28,10 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login setUser={setUser} />} />
           <Route path="/diary" element={<DiaryViewer   />} />
+          <Route path="/trainings" element={<TrainingsCalendar   />} />
 
-          <Route
-            path="/dashboard"
-            element={
-              user ? (
-                <div>
-                  <h2>Dobrodošao, {user.user.name}!</h2>
-                  <p>Email: {user.user.email}</p>
-                </div>
-              ) : (
-                <p>Molimo prijavite se za pristup Dashboard-u.</p>
-              )
-            }
-          />
+          
+          
         </Routes>
       </div>
     </Router>
