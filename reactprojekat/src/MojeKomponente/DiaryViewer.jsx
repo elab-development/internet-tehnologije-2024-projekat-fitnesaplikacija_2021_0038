@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import useDiaryEntries from './useDiaryEntries';
 import axios from 'axios';
 import './DiaryViewer.css'; // ažuriraj CSS ispod
@@ -13,6 +13,13 @@ const DiaryViewer = () => {
   const filteredEntries = filterDate
     ? entries.filter((entry) => entry.date === filterDate)
     : entries;
+
+  // Resetujemo trenutnu stranicu ako filtrirani unosi postanu prazni
+  useEffect(() => {
+    if (currentPage >= filteredEntries.length) {
+      setCurrentPage(0);
+    }
+  }, [filteredEntries, currentPage]);
 
   const handleNextPage = () => {
     if (currentPage < filteredEntries.length - 1) {
@@ -47,10 +54,32 @@ const DiaryViewer = () => {
     }
   };
 
+  const handleDeleteEntry = async (id) => {
+    const token = sessionStorage.getItem('auth_token');
+    if (!token) {
+      alert('Niste prijavljeni. Token nije pronađen.');
+      return;
+    }
+
+    try {
+      await axios.delete(`http://127.0.0.1:8000/api/diary-entries/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      // Ažuriramo stanje uklanjanjem unosa sa datim ID-jem
+      setEntries(entries.filter((entry) => entry.id !== id));
+      alert('Unos uspešno obrisan.');
+    } catch (err) {
+      alert('Greška prilikom brisanja unosa.');
+    }
+  };
+
   if (loading) return <p>Učitavanje dnevnika...</p>;
   if (error) return <p className="error">{error}</p>;
 
-  const currentEntry = filteredEntries.length > 0 ? filteredEntries[currentPage] : null;
+  const currentEntry = filteredEntries[currentPage] || null;
 
   return (
     <div className="diary-outer-container">
@@ -72,7 +101,7 @@ const DiaryViewer = () => {
           />
           <button className="add-entry-button" onClick={handleCreateEntry}>Dodaj Unos</button>
 
-          <h3 className="filter-title">Filtriraj po datumu</h3>
+          <h3 className="filter-title">Filtriraj unose</h3>
           <input
             type="date"
             className="filter-date-input"
@@ -89,10 +118,18 @@ const DiaryViewer = () => {
             </div>
           ) : (
             <>
-              <div className="diary-page-content">
-                <h2 className="entry-date">{currentEntry.date}</h2>
-                <p className="entry-content">{currentEntry.content}</p>
-              </div>
+              {currentEntry && (
+                <div className="diary-page-content">
+                  <h2 className="entry-date">{currentEntry.date}</h2>
+                  <p className="entry-content">{currentEntry.content}</p>
+                  <button
+                    className="delete-entry-button"
+                    onClick={() => handleDeleteEntry(currentEntry.id)}
+                  >
+                    Obriši ovaj unos
+                  </button>
+                </div>
+              )}
               <div className="diary-navigation">
                 <button
                   className="page-button"
