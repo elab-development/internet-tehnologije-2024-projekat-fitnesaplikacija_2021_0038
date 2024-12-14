@@ -182,3 +182,34 @@ body {
 .delete-button:hover {
   background-color: #c9302c;
 }
+/* Dodajemo stil za toolbar i content-editable polje */
+.toolbar {
+  display: flex;
+  gap: 5px;
+  margin-bottom: 10px;
+}
+
+.toolbar button {
+  background: #ececec;
+  border: 1px solid #ccc;
+  padding: 5px;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 14px;
+  border-radius: 3px;
+}
+
+.toolbar button:hover {
+  background: #ddd;
+}
+
+.content-editable {
+  min-height: 150px;
+  border: 1px solid #ccc;
+  padding: 10px;
+  background: rgba(255,255,255,0.8);
+  border-radius: 5px;
+  margin-bottom: 15px;
+  overflow-y: auto;
+  font-size: 1rem;
+}
