@@ -4,8 +4,7 @@ import CalendarDay from './CalendarDay';
 import './TrainingsCalendar.css';
 
 const TrainingsCalendar = () => {
-  const { trainings, loading, error } = useTrainings();
-
+  const { trainings, loading, error, fetchTrainings } = useTrainings(); // Pretpostavimo da useTrainings vraća fetchTrainings
   const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth());
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
 
@@ -30,7 +29,6 @@ const TrainingsCalendar = () => {
     <div className="calendar-container">
       <h2>Kalendar treninga</h2>
       
-      {/* Selektori za mesec i godinu */}
       <div className="calendar-controls">
         <select
           value={selectedMonth}
@@ -59,7 +57,14 @@ const TrainingsCalendar = () => {
 
       <div className="calendar-grid">
         {daysArray.map((day) => (
-          <CalendarDay key={day} day={day} trainings={getTrainingsForDay(day)} />
+          <CalendarDay
+            key={day}
+            day={day}
+            trainings={getTrainingsForDay(day)}
+            selectedYear={selectedYear}
+            selectedMonth={selectedMonth}
+            onTrainingAdded={fetchTrainings} // Dodaj callback
+          />
         ))}
       </div>
     </div>

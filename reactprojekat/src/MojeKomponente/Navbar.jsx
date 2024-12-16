@@ -30,10 +30,14 @@ const Navbar = ({ user, setUser }) => {
         <h1>FitLife</h1>
       </div>
       <nav className="navbar-links">
+      {!user &&( 
+        <>
         <Link to="/">Početna</Link>
         <Link to="/register">Registracija</Link>
         <Link to="/login">Prijava</Link>
-        {user && <Link to="/dashboard">Dashboard</Link>}
+        </>)}
+        {user && <Link to="/diary">Moj fitnes dnevnik</Link>}
+        {user && <Link to="/trainings">Moj raspored treninga</Link>}
         {user && (
           <button className="logout-btn" onClick={handleLogout}>
             Odjavi se

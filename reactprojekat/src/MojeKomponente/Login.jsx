@@ -42,7 +42,7 @@ const Login = ({ setUser }) => {
 
       setSuccess('Prijava uspešna!');
       setError('');
-      navigate('/dashboard')
+      navigate('/diary')
       // Resetovanje formData
       setFormData({ email: '', password: '' });
     } catch (err) {

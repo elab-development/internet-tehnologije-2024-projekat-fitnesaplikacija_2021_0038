@@ -31,7 +31,7 @@ const useTrainings = () => {
     fetchTrainings();
   }, []);
 
-  return { trainings, loading, error };
+  return { trainings, loading, error,fetchTrainings };
 };
 
 export default useTrainings;

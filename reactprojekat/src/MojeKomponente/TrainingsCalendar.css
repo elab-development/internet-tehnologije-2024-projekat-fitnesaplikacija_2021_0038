@@ -1,43 +1,194 @@
+/* GLOBAL RESET / BASE STYLES */
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, font, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+caption {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  vertical-align: baseline;
+}
+
+/* GLOBAL FONT */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f8f5f0;
+  color: #333;
+}
+
+/* ERROR MESSAGE */
+.error {
+  color: red;
+  text-align: center;
+  margin-top: 20px;
+}
+
+/* CALENDAR CONTAINER */
 .calendar-container {
-    padding: 20px;
-    font-family: Arial, sans-serif;
-  }
-  
-  h2 {
-    text-align: center;
-    margin-bottom: 20px;
-  }
-  
-  .calendar-grid {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    gap: 10px;
-  }
-  
-  .calendar-day {
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    padding: 10px;
-    background-color: #f9f9f9;
-    text-align: center;
-  }
-  
-  .day-number {
-    font-size: 1.2rem;
-    font-weight: bold;
-    margin-bottom: 10px;
-  }
-  
-  .trainings-list {
-    margin-top: 5px;
-  }
-  
-  .training-item {
-    background-color: #e6f7ff;
-    border: 1px solid #b3e5fc;
-    border-radius: 3px;
-    padding: 5px;
-    margin-bottom: 5px;
-    font-size: 0.9rem;
-  }
-  
+  padding: 20px 50px; 
+}
+
+.calendar-container h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* CALENDAR CONTROLS */
+.calendar-controls {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.calendar-controls select {
+  padding: 5px;
+  margin: 0 10px;
+}
+
+/* CALENDAR GRID */
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 5px;
+}
+
+/* CALENDAR DAY CARD */
+.calendar-day {
+  width: 100px;
+  height: 100px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 10px;
+  position: relative;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  background-color: #f9f9f9;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+ 
+.day-number {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  font-size: 14px;
+  font-weight: bold;
+  color: #555;
+}
+
+/* ADD TRAINING BUTTON */
+.add-training-button {
+  background-color: transparent;
+  color: grey;
+  font-size: 24px;
+  border: none;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.add-training-button:hover {
+  color: #007bff;
+}
+
+/* TRAINING LIST */
+.training-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  text-align: center;
+}
+
+.training-list li {
+  font-size: 12px;
+  margin: 2px 0;
+  padding: 2px;
+  border-radius: 4px;
+  background-color: #e0f7fa;
+  color: #00796b;
+}
+
+/* MODAL */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999; /* Povećan z-index da modal bude ispred kartica */
+}
+
+.modal-content {
+  background: white;
+  padding: 30px;
+  border-radius: 8px;
+  width: 400px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.modal-content h3 {
+  margin-bottom: 15px;
+}
+
+.modal-content form label {
+  display: block;
+  margin-bottom: 10px;
+  font-size: 14px;
+  color: #333;
+}
+
+.modal-content form input[type="text"],
+.modal-content form input[type="date"],
+.modal-content form input[type="number"],
+.modal-content form select {
+  width: 100%;
+  padding: 5px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+/* MODAL BUTTONS */
+.submit-button,
+.close-button {
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+.submit-button {
+  background-color: #007bff;
+  color: white;
+}
+
+.close-button {
+  background-color: #dc3545;
+  color: white;
+  margin-left: 10px;
+}
+
+.submit-button:hover {
+  background-color: #0056b3;
+}
+
+.close-button:hover {
+  background-color: #c82333;
+}
+
+ 
