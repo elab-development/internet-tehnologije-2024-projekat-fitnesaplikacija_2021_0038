@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
-const CalendarDay = ({ day, trainings, selectedYear, selectedMonth, onTrainingAdded }) => {
+const CalendarDay = ({ day, trainings,holiday, selectedYear, selectedMonth, onTrainingAdded }) => {
   const [showModal, setShowModal] = useState(false);
   const [title, setTitle] = useState('');
   const [date, setDate] = useState('');
@@ -63,6 +63,7 @@ const CalendarDay = ({ day, trainings, selectedYear, selectedMonth, onTrainingAd
   return (
     <div className="calendar-day">
       <div className="day-number">{day}</div>
+      {holiday && <div className="holiday-name">{holiday}</div>}
       {trainings.length === 0 ? (
         <button className="add-training-button" onClick={handleAddTraining}>
           +

@@ -1,12 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import useTrainings from './useTrainings';
 import CalendarDay from './CalendarDay';
 import './TrainingsCalendar.css';
+import axios from 'axios';
 
 const TrainingsCalendar = () => {
-  const { trainings, loading, error, fetchTrainings } = useTrainings(); // Pretpostavimo da useTrainings vraća fetchTrainings
+  const { trainings, loading, error, fetchTrainings } = useTrainings();
   const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth());
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
+  const [holidays, setHolidays] = useState([]);
 
   const daysInMonth = new Date(selectedYear, selectedMonth + 1, 0).getDate();
   const daysArray = Array.from({ length: daysInMonth }, (_, index) => index + 1);
@@ -21,6 +23,30 @@ const TrainingsCalendar = () => {
       );
     });
   };
+
+  const getHolidayForDay = (day) => {
+    const formattedDay = `${selectedYear}-${String(selectedMonth + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+    return holidays.find((holiday) => holiday.date === formattedDay)?.name || null;
+  };
+
+  useEffect(() => {
+    const fetchHolidays = async () => {
+      try {
+        const response = await axios.get(
+          `https://calendarific.com/api/v2/holidays?api_key=PCcNid8JuFoiLsUEoXxU5jVHFbGL60d0&country=RS&year=${selectedYear}&month=${selectedMonth + 1}`
+        );
+        const holidayData = response.data.response.holidays.map((holiday) => ({
+          name: holiday.name,
+          date: holiday.date.iso.split('T')[0],
+        }));
+        setHolidays(holidayData);
+      } catch (error) {
+        console.error('Greška prilikom preuzimanja praznika:', error);
+      }
+    };
+
+    fetchHolidays();
+  }, [selectedMonth, selectedYear]);
 
   if (loading) return <p>Učitavanje treninga...</p>;
   if (error) return <p className="error">{error}</p>;
@@ -61,9 +87,10 @@ const TrainingsCalendar = () => {
             key={day}
             day={day}
             trainings={getTrainingsForDay(day)}
+            holiday={getHolidayForDay(day)} // Prosleđujemo praznik
             selectedYear={selectedYear}
             selectedMonth={selectedMonth}
-            onTrainingAdded={fetchTrainings} // Dodaj callback
+            onTrainingAdded={fetchTrainings}
           />
         ))}
       </div>
