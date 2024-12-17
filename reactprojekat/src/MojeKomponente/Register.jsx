@@ -3,8 +3,10 @@ import axios from 'axios';
 import InputField from './InputField';
 import Button from './Button';
 import './Register.css';
+import { useNavigate } from 'react-router-dom';
 
 const Register = () => {
+  let navigate= useNavigate();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -42,6 +44,7 @@ const Register = () => {
       setSuccess('Registracija uspešna! Možete se prijaviti.');
       setError('');
       setFormData({ name: '', email: '', password: '', confirmPassword: '' });
+      navigate('/login')
     } catch (err) {
       setError(err.response?.data?.errors?.email?.[0] || 'Došlo je do greške.');
       setSuccess('');

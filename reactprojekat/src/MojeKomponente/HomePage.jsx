@@ -6,6 +6,7 @@ import { BiRun } from 'react-icons/bi';
 import { IoIosPeople } from 'react-icons/io';  
 
 const HomePage = () => {
+  /////////
   return (
     <div className="homepage-container"> 
 

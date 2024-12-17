@@ -40,8 +40,8 @@ class UserFactory extends Factory
      *
      * @return $this
      */
-    public function configure()
-    {
+  //  public function configure()
+  //  {
         /**
          * Metoda `configure` omogućava prilagođavanje ponašanja factory-ja
          * nakon kreiranja modela. Ovde koristimo `afterCreating` callback
@@ -57,10 +57,10 @@ class UserFactory extends Factory
          * Za svakog korisnika automatski se generiše povezani profil, a konfiguracija
          * omogućava dodavanje ove logike unutar factory-ja na praktičan i čitljiv način.
          */
-        return $this->afterCreating(function (User $user) {
-            $user->profile()->create(Profile::factory()->make()->toArray());
-        });
-    }
+        // return $this->afterCreating(function (User $user) {
+        //     $user->profile()->create(Profile::factory()->make()->toArray());
+        // });
+   // }
 
     /**
      * Indicate that the user's email address should be unverified.
