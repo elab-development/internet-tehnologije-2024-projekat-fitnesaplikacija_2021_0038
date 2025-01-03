@@ -8,6 +8,7 @@ import Navbar from './MojeKomponente/Navbar';
 import DiaryViewer from './MojeKomponente/DiaryViewer';
 import TrainingsCalendar from './MojeKomponente/TrainingsCalendar';
 import UserProfile from './MojeKomponente/UserProfile';
+import Breadcrumbs from './MojeKomponente/Breadcrumbs';
 
 function App() {
   const [user, setUser] = useState(() => {
@@ -23,12 +24,13 @@ function App() {
   return (
     <Router>
       <Navbar user={user} setUser={setUser} />
+      <Breadcrumbs />
       <div className="App">
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login setUser={setUser} />} />
-          <Route path="/diary" element={<DiaryViewer   />} />
+          <Route path="/diary" element={<DiaryViewer   />} />   {/** za seminarski dopunjeno sa UPDATE operacijom */}
           <Route path="/trainings" element={<TrainingsCalendar   />} />
           <Route path="/myprofile" element={<UserProfile   />} />
 
