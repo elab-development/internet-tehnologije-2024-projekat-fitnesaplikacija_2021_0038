@@ -9,6 +9,7 @@ import DiaryViewer from './MojeKomponente/DiaryViewer';
 import TrainingsCalendar from './MojeKomponente/TrainingsCalendar';
 import UserProfile from './MojeKomponente/UserProfile';
 import Breadcrumbs from './MojeKomponente/Breadcrumbs';
+import ExerciseList from './MojeKomponente/ExerciseList';
 
 function App() {
   const [user, setUser] = useState(() => {
@@ -33,6 +34,7 @@ function App() {
           <Route path="/diary" element={<DiaryViewer   />} />   {/** za seminarski dopunjeno sa UPDATE operacijom */}
           <Route path="/trainings" element={<TrainingsCalendar   />} />
           <Route path="/myprofile" element={<UserProfile   />} />
+          <Route path="/exercises" element={<ExerciseList   />} />
 
           
           
