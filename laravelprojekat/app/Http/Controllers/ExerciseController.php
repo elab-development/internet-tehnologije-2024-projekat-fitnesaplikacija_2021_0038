@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Exercise;
 use App\Http\Resources\ExerciseResource;
+use App\Models\Training;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class ExerciseController extends Controller
@@ -70,4 +72,8 @@ class ExerciseController extends Controller
 
         return response()->json(['message' => 'Exercise deleted successfully.']);
     }
+
+
+   
+
 }

@@ -84,4 +84,27 @@ class TrainingController extends Controller
 
         return response()->json(['message' => 'Training deleted successfully'], 200);
     }
+    
+
+    public function statistics()
+    {
+        $userId = Auth::id();
+
+        $trainings = Training::where('user_id', $userId)
+            ->orderBy('date', 'asc')
+            ->get(['date', 'duration', 'calories_burned']);
+
+        $statistics = $trainings->groupBy(function ($training) {
+            return $training->date->format('Y-m'); // Grupisanje po mesecima
+        })->map(function ($monthTrainings) {
+            return [
+                'total_duration' => $monthTrainings->sum('duration'),
+                'total_calories' => $monthTrainings->sum('calories_burned'),
+                'trainings_count' => $monthTrainings->count(),
+            ];
+        });
+
+        return response()->json($statistics, 200);
+    }
+
 }

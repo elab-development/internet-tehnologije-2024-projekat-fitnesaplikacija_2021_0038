@@ -11,6 +11,7 @@ import TrainingsCalendar from './MojeKomponente/TrainingsCalendar';
 import Breadcrumbs from './MojeKomponente/Breadcrumbs';
 import ExerciseList from './MojeKomponente/ExerciseList';
 import AdminNotificationComponent from './MojeKomponente/AdminNotificationComponent';
+import TrainingStatistics from './MojeKomponente/TrainingStatistics';
 
 function App() {
   const [user, setUser] = useState(() => {
@@ -39,6 +40,7 @@ function App() {
 
           <Route path="/exercises" element={<ExerciseList   />} />
           <Route path="/admin/notification" element={<AdminNotificationComponent   />} />
+          <Route path="/trainings/stats" element={<TrainingStatistics   />} />
 
           
           

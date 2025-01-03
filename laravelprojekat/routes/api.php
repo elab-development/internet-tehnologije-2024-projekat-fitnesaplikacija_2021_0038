@@ -25,6 +25,8 @@ Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
 
+//dodata ruta za seminarski
+Route::middleware('auth:sanctum')->get('/trainings/statistics', [TrainingController::class, 'statistics']);
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/profiles', [ProfileController::class, 'index']);
     Route::get('/profiles/{id}', [ProfileController::class, 'show']);
@@ -38,6 +40,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::apiResource('exercises', ExerciseController::class);
     Route::apiResource('diary-entries', DiaryEntryController::class);
+  
 
 
 
@@ -48,7 +51,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('/notifications/{id}', [NotificationController::class, 'update']);
     Route::delete('/notifications/{id}', [NotificationController::class, 'destroy']);
 });
-
 
 
  
