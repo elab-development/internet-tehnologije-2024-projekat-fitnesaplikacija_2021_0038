@@ -7,6 +7,7 @@ import Login from './MojeKomponente/Login';
 import Navbar from './MojeKomponente/Navbar';
 import DiaryViewer from './MojeKomponente/DiaryViewer';
 import TrainingsCalendar from './MojeKomponente/TrainingsCalendar';
+import UserProfile from './MojeKomponente/UserProfile';
 
 function App() {
   const [user, setUser] = useState(() => {
@@ -29,6 +30,7 @@ function App() {
           <Route path="/login" element={<Login setUser={setUser} />} />
           <Route path="/diary" element={<DiaryViewer   />} />
           <Route path="/trainings" element={<TrainingsCalendar   />} />
+          <Route path="/myprofile" element={<UserProfile   />} />
 
           
           

@@ -9,6 +9,10 @@ const DiaryViewer = () => {
   const [newEntry, setNewEntry] = useState({ date: '', content: '' });
   const [filterDate, setFilterDate] = useState('');
 
+  // Dodatni state za izmenu
+  const [isEditing, setIsEditing] = useState(false);
+  const [editEntryId, setEditEntryId] = useState(null);
+
   const editorRef = useRef(null);
 
   // Filtrirani unosi na osnovu datuma
@@ -86,6 +90,63 @@ const DiaryViewer = () => {
     }
   };
 
+  // Funkcija koja pokreće mod za izmenu
+  const handleEditEntry = (entry) => {
+    setIsEditing(true);
+    setEditEntryId(entry.id);
+    setNewEntry({ date: entry.date, content: entry.content });
+    // Postavimo contentEditable na postojeći sadržaj
+    if (editorRef.current) {
+      editorRef.current.innerHTML = entry.content;
+    }
+  };
+
+  // Funkcija za otkazivanje izmene
+  const handleCancelEdit = () => {
+    setIsEditing(false);
+    setEditEntryId(null);
+    setNewEntry({ date: '', content: '' });
+    if (editorRef.current) {
+      editorRef.current.innerHTML = '';
+    }
+  };
+
+  // Funkcija koja šalje PUT zahtev za izmenu
+  const handleUpdateEntry = async () => {
+    const token = sessionStorage.getItem('auth_token');
+    if (!token) {
+      alert('Niste prijavljeni. Token nije pronađen.');
+      return;
+    }
+
+    try {
+      const contentHtml = editorRef.current.innerHTML;
+
+      const response = await axios.put(
+        `http://127.0.0.1:8000/api/diary-entries/${editEntryId}`,
+        { date: newEntry.date, content: contentHtml },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      // Zamenimo stari entry novim
+      const updatedEntry = response.data;
+      setEntries(entries.map((entry) => 
+        entry.id === editEntryId ? updatedEntry : entry
+      ));
+
+      alert('Uspešno ažuriran unos!');
+    } catch (err) {
+      alert('Greška prilikom ažuriranja unosa.');
+    } finally {
+      // Vraćamo formu u mod za kreiranje
+      handleCancelEdit();
+    }
+  };
+
   const currentEntry = filteredEntries[currentPage] || null;
 
   // Funkcije za formatiranje teksta u contentEditable divu
@@ -107,7 +168,9 @@ const DiaryViewer = () => {
     <div className="diary-outer-container">
       <div className="diary-viewer-container">
         <div className="diary-left-page">
-          <h2 className="new-entry-title">Novi Unos</h2>
+          <h2 className="new-entry-title">
+            {isEditing ? 'Izmeni Unos' : 'Novi Unos'}
+          </h2>
           <input
             type="date"
             className="date-input"
@@ -118,15 +181,55 @@ const DiaryViewer = () => {
 
           {/* Toolbar za formatiranje teksta */}
           <div className="toolbar">
-            <button className="toolbar-button" onClick={() => formatText('bold')} title="Bold" style={{fontWeight:'bold'}}>B</button>
-            <button className="toolbar-button" onClick={() => formatText('italic')} title="Italic" style={{fontStyle:'italic'}}>I</button>
-            <button className="toolbar-button" onClick={() => formatText('underline')} title="Underline" style={{textDecoration:'underline'}}>U</button>
+            <button
+              className="toolbar-button"
+              onClick={() => formatText('bold')}
+              title="Bold"
+              style={{ fontWeight: 'bold' }}
+            >
+              B
+            </button>
+            <button
+              className="toolbar-button"
+              onClick={() => formatText('italic')}
+              title="Italic"
+              style={{ fontStyle: 'italic' }}
+            >
+              I
+            </button>
+            <button
+              className="toolbar-button"
+              onClick={() => formatText('underline')}
+              title="Underline"
+              style={{ textDecoration: 'underline' }}
+            >
+              U
+            </button>
 
-            <button className="toolbar-button color-button" style={{backgroundColor:'red'}} onClick={() => formatText('foreColor', 'red')} title="Crvena boja"></button>
-            <button className="toolbar-button color-button" style={{backgroundColor:'blue'}} onClick={() => formatText('foreColor', 'blue')} title="Plava boja"></button>
-            <button className="toolbar-button color-button" style={{backgroundColor:'green'}} onClick={() => formatText('foreColor', 'green')} title="Zelena boja"></button>
+            <button
+              className="toolbar-button color-button"
+              style={{ backgroundColor: 'red' }}
+              onClick={() => formatText('foreColor', 'red')}
+              title="Crvena boja"
+            ></button>
+            <button
+              className="toolbar-button color-button"
+              style={{ backgroundColor: 'blue' }}
+              onClick={() => formatText('foreColor', 'blue')}
+              title="Plava boja"
+            ></button>
+            <button
+              className="toolbar-button color-button"
+              style={{ backgroundColor: 'green' }}
+              onClick={() => formatText('foreColor', 'green')}
+              title="Zelena boja"
+            ></button>
 
-            <select className="font-size-select" onChange={handleFontSizeChange} title="Veličina fonta">
+            <select
+              className="font-size-select"
+              onChange={handleFontSizeChange}
+              title="Veličina fonta"
+            >
               <option value="">Veličina</option>
               <option value="1">Malo</option>
               <option value="3">Normalno</option>
@@ -134,8 +237,20 @@ const DiaryViewer = () => {
               <option value="7">Najveće</option>
             </select>
 
-            <button className="toolbar-button" onClick={() => formatText('insertUnorderedList')} title="Nenumerisana lista">UL</button>
-            <button className="toolbar-button" onClick={() => formatText('insertOrderedList')} title="Numerisana lista">OL</button>
+            <button
+              className="toolbar-button"
+              onClick={() => formatText('insertUnorderedList')}
+              title="Nenumerisana lista"
+            >
+              UL
+            </button>
+            <button
+              className="toolbar-button"
+              onClick={() => formatText('insertOrderedList')}
+              title="Numerisana lista"
+            >
+              OL
+            </button>
           </div>
 
           {/* contentEditable div za unos teksta sa stilovima */}
@@ -144,10 +259,25 @@ const DiaryViewer = () => {
             ref={editorRef}
             contentEditable={true}
             placeholder="Sadržaj unosa..."
-            onInput={(e) => setNewEntry({ ...newEntry, content: e.currentTarget.innerHTML })}
-          ></div>
+            onInput={(e) =>
+              setNewEntry({ ...newEntry, content: e.currentTarget.innerHTML })
+            }
+          />
 
-          <button className="add-entry-button" onClick={handleCreateEntry}>Dodaj Unos</button>
+          {/* Dugme koje menja funkciju i naslov u zavisnosti od moda */}
+          <button
+            className="add-entry-button"
+            onClick={isEditing ? handleUpdateEntry : handleCreateEntry}
+          >
+            {isEditing ? 'Ažuriraj Unos' : 'Dodaj Unos'}
+          </button>
+
+          {/* Dugme za otkazivanje izmene (vidljivo samo ako je isEditing true) */}
+          {isEditing && (
+            <button className="cancel-edit-button" onClick={handleCancelEdit}>
+              Otkaži
+            </button>
+          )}
 
           <h3 className="filter-title">Filtriraj unose</h3>
           <input
@@ -170,15 +300,23 @@ const DiaryViewer = () => {
                 <div className="diary-page-content">
                   <h2 className="entry-date">{currentEntry.date}</h2>
                   {/* Renderujemo HTML sadržaj unosa oprezno */}
-                  <div 
-                    className="entry-content" 
-                    dangerouslySetInnerHTML={{ __html: currentEntry.content }} 
+                  <div
+                    className="entry-content"
+                    dangerouslySetInnerHTML={{ __html: currentEntry.content }}
                   />
                   <button
                     className="delete-entry-button"
                     onClick={() => handleDeleteEntry(currentEntry.id)}
                   >
                     Obriši ovaj unos
+                  </button>
+
+                  {/* Dugme za izmenu postojećeg unosa */}
+                  <button
+                    className="edit-entry-button"
+                    onClick={() => handleEditEntry(currentEntry)}
+                  >
+                    Izmeni ovaj unos
                   </button>
                 </div>
               )}
