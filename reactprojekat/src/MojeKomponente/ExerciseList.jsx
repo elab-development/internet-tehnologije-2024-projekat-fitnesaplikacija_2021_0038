@@ -4,9 +4,12 @@ import './ExerciseList.css';
 
 const ExerciseList = () => {
   const [exercises, setExercises] = useState([]);
+  const [filteredExercises, setFilteredExercises] = useState([]);
   const [selectedMuscleGroup, setSelectedMuscleGroup] = useState('');
   const [muscleGroups, setMuscleGroups] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [sortOrder, setSortOrder] = useState('asc'); // 'asc' za rastuće, 'desc' za opadajuće
 
   useEffect(() => {
     // Učitavanje mišićnih grupa sa API-ja
@@ -42,40 +45,102 @@ const ExerciseList = () => {
     }
   }, [selectedMuscleGroup]);
 
+  useEffect(() => {
+    // Filtriranje i sortiranje
+    let updatedExercises = exercises;
+
+    // Pretraga
+    if (searchQuery) {
+      updatedExercises = updatedExercises.filter((exercise) =>
+        exercise.name.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+    }
+
+    // Sortiranje
+    updatedExercises = updatedExercises.sort((a, b) => {
+      if (sortOrder === 'asc') {
+        return a.name.localeCompare(b.name);
+      } else {
+        return b.name.localeCompare(a.name);
+      }
+    });
+
+    setFilteredExercises(updatedExercises);
+  }, [exercises, searchQuery, sortOrder]);
+
   const handleMuscleGroupChange = (event) => {
     setSelectedMuscleGroup(event.target.value);
+    setSearchQuery(''); // Resetujemo pretragu prilikom promene grupe
+  };
+
+  const handleSearchChange = (event) => {
+    setSearchQuery(event.target.value);
+  };
+
+  const handleSortOrderChange = (event) => {
+    setSortOrder(event.target.value);
   };
 
   return (
     <div className="exercise-list-container">
       <h1 className="exercise-list-title">Vežbe po mišićnim grupama</h1>
-      <div className="filter-container">
-        <label htmlFor="muscle-group-select" className="filter-label">Izaberite mišićnu grupu:</label>
-        <select
-          id="muscle-group-select"
-          className="filter-select"
-          value={selectedMuscleGroup}
-          onChange={handleMuscleGroupChange}
-        >
-          <option value="">-- Izaberite --</option>
-          {muscleGroups.map((group) => (
-            <option key={group.id} value={group.id}>
-              {group.name}
-            </option>
-          ))}
-        </select>
+
+      <div className="controls-container">
+        <div className="filter-container">
+          <label htmlFor="muscle-group-select" className="filter-label">Izaberite mišićnu grupu:</label>
+          <select
+            id="muscle-group-select"
+            className="filter-select"
+            value={selectedMuscleGroup}
+            onChange={handleMuscleGroupChange}
+          >
+            <option value="">-- Izaberite --</option>
+            {muscleGroups.map((group) => (
+              <option key={group.id} value={group.id}>
+                {group.name}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div className="search-container">
+          <label htmlFor="search-input" className="search-label">Pretraga:</label>
+          <input
+            id="search-input"
+            type="text"
+            className="search-input"
+            value={searchQuery}
+            onChange={handleSearchChange}
+            placeholder="Pretraži vežbe..."
+          />
+        </div>
+
+        <div className="sort-container">
+          <label htmlFor="sort-select" className="sort-label">Sortiraj:</label>
+          <select
+            id="sort-select"
+            className="sort-select"
+            value={sortOrder}
+            onChange={handleSortOrderChange}
+          >
+            <option value="asc">Rastuće</option>
+            <option value="desc">Opadajuće</option>
+          </select>
+        </div>
       </div>
 
       {loading ? (
         <p className="loading-text">Učitavanje vežbi...</p>
       ) : (
         <div className="exercise-grid">
-          {exercises.length > 0 ? (
-            exercises.map((exercise) => (
+          {filteredExercises.length > 0 ? (
+            filteredExercises.map((exercise) => (
               <div key={exercise.id} className="exercise-card">
                 <h2 className="exercise-name">{exercise.name}</h2>
-                <div className="exercise-description" dangerouslySetInnerHTML={{ __html: exercise.description }}></div>
-                {/* Placeholder za slike */}
+                <div
+                  className="exercise-description"
+                  dangerouslySetInnerHTML={{ __html: exercise.description }}
+                ></div>
                 <img
                   src="https://via.placeholder.com/300"
                   alt={exercise.name}
@@ -84,7 +149,7 @@ const ExerciseList = () => {
               </div>
             ))
           ) : (
-            <p className="no-exercises-text">Nema dostupnih vežbi za odabranu mišićnu grupu.</p>
+            <p className="no-exercises-text">Nema dostupnih vežbi za kriterijume pretrage.</p>
           )}
         </div>
       )}
