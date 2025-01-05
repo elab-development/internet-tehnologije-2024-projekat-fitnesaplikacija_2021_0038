@@ -73,4 +73,43 @@ class AuthController extends Controller
 
         return response()->json(['message' => 'Successfully logged out'], 200);
     }
+
+    //dodato za seminarski
+    public function changeUserRole(Request $request, $id)
+    {
+        // Validacija ulaznih podataka
+        $validator = Validator::make($request->all(), [
+            'role' => 'required|string|in:admin,korisnik',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
+        // Pronađi korisnika prema ID-u
+        $user = User::find($id);
+
+        if (!$user) {
+            return response()->json(['message' => 'Korisnik nije pronađen.'], 404);
+        }
+
+        // Promeni ulogu korisniku
+        $user->uloga = $request->role;
+        $user->save();
+
+        return response()->json([
+            'message' => 'Uloga korisnika je uspešno promenjena.',
+            'user' => new UserResource($user),
+        ], 200);
+    }
+    public function getAllUsers()
+    {
+        $users = User::all();
+
+        return response()->json([
+            'message' => 'Lista svih korisnika.',
+            'users' => UserResource::collection($users),
+        ], 200);
+    }
+
 }

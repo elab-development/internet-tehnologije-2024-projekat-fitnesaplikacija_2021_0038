@@ -56,6 +56,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/admin/user-goals', [AdminController::class, 'userGoalsStatistics']);
     Route::get('/admin/training-durations', [AdminController::class, 'trainingDurationStatistics']);
 });
+Route::middleware('auth:sanctum')->get('/users', [AuthController::class, 'getAllUsers']);
+Route::middleware('auth:sanctum')->patch('/users/{id}/role', [AuthController::class, 'changeUserRole']);
 
- 
- 
+
