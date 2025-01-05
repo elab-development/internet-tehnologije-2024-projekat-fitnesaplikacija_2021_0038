@@ -55,11 +55,11 @@ class ProfileController extends Controller
         $profile = Profile::where('user_id', Auth::id())->findOrFail($id);
 
         $validator = Validator::make($request->all(), [
-            'age' => 'required|integer|min:18|max:70',
-            'weight' => 'required|integer|min:30|max:300',
-            'height' => 'required|integer|min:100|max:250',
-            'goal' => 'required|string|in:lose weight,maintain weight,gain weight',
-            'calories_per_day' => 'required|integer|min:1000|max:4000',
+            'age' => 'sometimes|integer|min:18|max:70',
+            'weight' => 'sometimes|integer|min:30|max:300',
+            'height' => 'sometimes|integer|min:100|max:250',
+            'goal' => 'sometimes|string|in:lose weight,maintain weight,gain weight',
+            'calories_per_day' => 'sometimes|integer|min:1000|max:4000',
             'profile_picture' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 

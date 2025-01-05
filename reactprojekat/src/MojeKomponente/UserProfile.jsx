@@ -204,7 +204,7 @@ const UserProfile = () => {
           {validationErrors.goal && <p className="error">{validationErrors.goal[0]}</p>}
         </div>
         <div className="form-group">
-          <label htmlFor="calories_per_day">Calories per Day:</label>
+          <label htmlFor="calories_per_day">Calories per day:</label>
           <input
             type="number"
             id="calories_per_day"
@@ -216,7 +216,7 @@ const UserProfile = () => {
           {validationErrors.calories_per_day && <p className="error">{validationErrors.calories_per_day[0]}</p>}
         </div>
         <div className="form-group">
-          <label htmlFor="profile_picture">Profile Picture:</label>
+          <label htmlFor="profile_picture">Profile picture:</label>
           <input
             type="file"
             id="profile_picture"
@@ -228,7 +228,7 @@ const UserProfile = () => {
         {profile && profile.profile_picture && (
           <div className="profile-picture-preview">
             <img
-              src={`http://127.0.0.1:8000/storage/${profile.profile_picture}`}
+              src={`${profile.profile_picture}`}
               alt="Profile"
             />
           </div>
@@ -239,7 +239,7 @@ const UserProfile = () => {
       </form>
 
       <div className="statistics">
-        <h2>Your Training Statistics</h2>
+        <h2>Your stats</h2>
         <Bar data={chartData} options={{ responsive: true }} />
       </div>
     </div>

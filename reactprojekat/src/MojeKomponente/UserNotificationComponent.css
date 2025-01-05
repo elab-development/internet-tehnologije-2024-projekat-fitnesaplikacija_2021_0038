@@ -1,0 +1,79 @@
+/* Pozadina stranice */
+body {
+    background: #f0e9dc; /* Blaga bež pozadina sajta */
+    margin: 0;
+    font-family: 'Georgia', serif;
+  }
+  
+  /* Kontejner za notifikacije */
+  .user-notification-container {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 20px;
+    background-color: #faf9f4;
+    border-radius: 10px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Naslov sekcije */
+  .user-notification-container h1 {
+    text-align: center;
+    font-size: 2rem;
+    color: #5a4633;
+    margin-bottom: 20px;
+  }
+  
+  /* Poruka kada nema notifikacija */
+  .no-notifications {
+    text-align: center;
+    font-size: 1.2rem;
+    color: #666;
+  }
+  
+  /* Lista notifikacija */
+  .notification-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  /* Kartica za pojedinačnu notifikaciju */
+  .notification-card {
+    background-color: #fbf8ef;
+    border: 1px solid #d3cbb8;
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  }
+  
+  .notification-title {
+    font-family: 'Caveat', cursive;
+    font-size: 1.5rem;
+    color: #5a4633;
+    margin-bottom: 10px;
+  }
+  
+  .notification-message {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #333;
+    margin-bottom: 10px;
+  }
+  
+  .notification-link {
+    display: inline-block;
+    color: #4285f4;
+    text-decoration: none;
+    font-weight: bold;
+  }
+  
+  .notification-link:hover {
+    text-decoration: underline;
+  }
+  
+  .notification-date {
+    font-size: 0.9rem;
+    color: #777;
+    text-align: right;
+  }
+  

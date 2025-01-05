@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import useDiaryEntries from './useDiaryEntries';
 import axios from 'axios';
-import htmlDocx from 'html-docx-js/dist/html-docx'; // Dodato za izvoz u Word
+import htmlDocx from 'html-docx-js/dist/html-docx'; // Za izvoz u Word
 import './DiaryViewer.css';
 
 const DiaryViewer = () => {
@@ -153,20 +153,56 @@ const DiaryViewer = () => {
 
   const currentEntry = filteredEntries[currentPage] || null;
 
-  // Funkcije za formatiranje teksta u contentEditable divu
+  // Funkcije za osnovno formatiranje (bold, italic, underline, boje, liste)
   const formatText = (command, value = null) => {
     document.execCommand(command, false, value);
   };
 
+  // Umesto execCommand('fontSize', ...), ručno obmotamo selekciju <span>om
+  // koji ima željenu vrednost font-size.
   const handleFontSizeChange = (e) => {
-    const size = e.target.value;
-    if (size) {
-      formatText('fontSize', size);
+    const sizeValue = e.target.value; // "1", "3", "5", "7" ili ""
+    if (!sizeValue) return;
+
+    // Dobijamo selekciju
+    const selection = window.getSelection();
+    if (!selection || selection.rangeCount === 0) {
+      return;
     }
+    const range = selection.getRangeAt(0);
+
+    // Kreiramo span koji će obmotati selektovani tekst
+    const span = document.createElement('span');
+
+    // Dodeljujemo mu style.fontSize na osnovu izabrane vrednosti
+    // Ovde možete sami podesiti veličine koje odgovaraju vašim željama:
+    switch (sizeValue) {
+      case '1':
+        span.style.fontSize = '0.9rem';
+        break;
+      case '3':
+        span.style.fontSize = '1rem'; // "normalno"
+        break;
+      case '5':
+        span.style.fontSize = '1.2rem';
+        break;
+      case '7':
+        span.style.fontSize = '1.4rem';
+        break;
+      default:
+        span.style.fontSize = '1rem';
+        break;
+    }
+
+    // Okružujemo selektovani sadržaj novostvorenim span-om
+    range.surroundContents(span);
+
+    // Resetujemo <select> na podrazumevanu vrednost ("")
+    e.target.value = '';
   };
 
   // -----------------------------------------------------
-  // Izvoz svih unosa (filtiranih) u Word (DOCX)
+  // Izvoz (filtiranih) unosa u Word (DOCX)
   // Sa "notebook" (sveska) stilom i pokušajem čuvanja HTML formata.
   // -----------------------------------------------------
   const handleExportWord = () => {
@@ -176,7 +212,6 @@ const DiaryViewer = () => {
     }
 
     // Kombinujemo sve unose u jedan HTML string.
-    // Ubacujemo i malo custom stila da simuliramo izgled sveske.
     let combinedHtml = `
     <html>
       <head>
@@ -200,7 +235,6 @@ const DiaryViewer = () => {
           .page-break {
             page-break-after: always;
           }
-          /* Primer stila za tekst unutar unosa: zadržaćemo boju i eventualni inline stil iz HTML-a */
           .entry-content {
             margin-bottom: 1em;
           }
@@ -216,8 +250,7 @@ const DiaryViewer = () => {
           ${entry.content}
         </div>
       `;
-
-      // Ako nije poslednji unos, ubacujemo page-break za Word
+      // Ako nije poslednji unos, ubacujemo page-break
       if (index !== filteredEntries.length - 1) {
         combinedHtml += '<div class="page-break"></div>';
       }
@@ -227,13 +260,13 @@ const DiaryViewer = () => {
       </body>
     </html>`;
 
-    // Koristimo html-docx-js da konvertuje HTML u docx Blob
+    // Konvertujemo HTML u docx Blob
     const docxBlob = htmlDocx.asBlob(combinedHtml);
 
     // Generišemo link za preuzimanje
     const link = document.createElement('a');
     link.href = URL.createObjectURL(docxBlob);
-    link.download = 'dnevnik.docx'; // Naziv fajla
+    link.download = 'dnevnik.docx';
     link.click();
   };
 
@@ -245,7 +278,7 @@ const DiaryViewer = () => {
       <div className="diary-viewer-container">
         <div className="diary-left-page">
           <h2 className="new-entry-title">
-            {isEditing ? 'Izmeni Unos' : 'Novi Unos'}
+            {isEditing ? 'Izmeni unos' : 'Novi unos'}
           </h2>
           <input
             type="date"
@@ -301,6 +334,7 @@ const DiaryViewer = () => {
               title="Zelena boja"
             ></button>
 
+            {/* Ručno implementirano povećanje/smanjenje fonta */}
             <select
               className="font-size-select"
               onChange={handleFontSizeChange}
@@ -345,7 +379,7 @@ const DiaryViewer = () => {
             className="add-entry-button"
             onClick={isEditing ? handleUpdateEntry : handleCreateEntry}
           >
-            {isEditing ? 'Ažuriraj Unos' : 'Dodaj Unos'}
+            {isEditing ? 'Ažuriraj unos' : 'Dodaj unos'}
           </button>
 
           {/* Dugme za otkazivanje izmene (vidljivo samo ako je isEditing true) */}

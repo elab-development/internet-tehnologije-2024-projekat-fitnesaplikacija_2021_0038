@@ -1,54 +1,185 @@
-.user-profile {
-    max-width: 600px;
-    margin: 0 auto;
-    padding: 20px;
-    background-color: #fff;
-    border-radius: 10px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+/* -----------------------------------------
+   RESET i osnovni stil pozadine
+----------------------------------------- */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(135deg, #e1f3f3, #f5f5f5);
   }
   
+  /* -----------------------------------------
+     Glavni kontejner (kartica profila)
+  ----------------------------------------- */
+  .user-profile {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 20px 30px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+    position: relative;
+  }
+  
+  /* -----------------------------------------
+     Naslov stranice 
+  ----------------------------------------- */
   .user-profile h1 {
     text-align: center;
-    margin-bottom: 20px;
+    margin-bottom: 30px;
+    font-size: 2rem;
     color: #333;
+    font-weight: 600;
   }
   
+  /* -----------------------------------------
+     Deo za formu / prikaz info
+  ----------------------------------------- */
+  .profile-form {
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    padding: 20px 25px;
+    margin-bottom: 30px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    position: relative;
+  }
+  
+  /* Naslov (ako želite unutar "forme") */
+  .profile-form h2 {
+    margin-top: 0;
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: #555;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+  }
+  
+  /* Grupisanje polja u "karticu" */
   .profile-form .form-group {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     margin-bottom: 15px;
   }
   
+  /* Label kao deskriptor polja */
   .profile-form label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: 500;
-    color: #333;
+    font-weight: 600;
+    color: #444;
+    margin-right: 10px;
+    min-width: 120px; /* fiksna širina opisa, po želji */
   }
   
+  /* Ovde "kamufliramo" input da izgleda kao tekst */
   .profile-form input,
   .profile-form select {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+    border: none;
+    background: none;
+    padding: 5px 0; 
+    font-size: 1rem;
+    color: #333;
+    text-align: right;
+    width: 70%;
+    transition: all 0.2s;
   }
   
-  .profile-form input[type='file'] {
-    padding: 5px;
+  /* Uklanjamo fokus stil ili menjamo kako bismo imali tanku liniju */
+  .profile-form input:focus,
+  .profile-form select:focus {
+    outline: none;
+    border-bottom: 1px dashed #2db5b5;
+    background-color: #fff;
   }
   
+  /* Dugme za čuvanje */
   .profile-form .primary-btn {
     display: block;
+    background-color: #2db5b5;
+    color: #fff;
+    border: none;
     width: 100%;
-    margin-top: 20px;
+    padding: 12px 0;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 25px;
+    transition: background-color 0.3s;
   }
   
+  .profile-form .primary-btn:hover {
+    background-color: #27a0a0;
+  }
+  
+  /* Greške */
+  .error {
+    color: #d9534f;
+    margin-top: 5px;
+    font-size: 0.9rem;
+    flex: 1 1 100%;
+    text-align: left;
+  }
+  
+  /* -----------------------------------------
+     Sekcija za prikaz slike profila
+  ----------------------------------------- */
   .profile-picture-preview {
-    text-align: center;
-    margin-top: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    margin-bottom: 20px;
+  }
+  .profile-picture-preview img {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 3px solid #ccc;
   }
   
-  .profile-picture-preview img {
-    max-width: 150px;
-    border-radius: 10px;
+  /* -----------------------------------------
+     Statistika i grafikon
+  ----------------------------------------- */
+  .statistics {
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    padding: 20px 25px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    text-align: center;
+  }
+  .statistics h2 {
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: #555;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+  }
+  
+  /* Chart.js platno */
+  .statistics canvas {
+    max-width: 100%;
+    margin: 0 auto;
+  }
+  
+  /* -----------------------------------------
+     Responsive prilagođavanje
+  ----------------------------------------- */
+  @media (max-width: 768px) {
+    .profile-form .form-group {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    .profile-form label {
+      margin-bottom: 5px;
+      min-width: auto;
+    }
+    .profile-form input,
+    .profile-form select {
+      width: 100%;
+      text-align: left;
+    }
   }
   

@@ -13,6 +13,7 @@ import ExerciseList from './MojeKomponente/ExerciseList';
 import AdminNotificationComponent from './MojeKomponente/AdminNotificationComponent';
 import TrainingStatistics from './MojeKomponente/TrainingStatistics';
 import UserProfile from './MojeKomponente/UserProfile';
+import UserNotificationComponent from './MojeKomponente/UserNotificationComponent';
 
 function App() {
   const [user, setUser] = useState(() => {
@@ -43,6 +44,7 @@ function App() {
           <Route path="/admin/notification" element={<AdminNotificationComponent   />} />
           <Route path="/trainings/stats" element={<TrainingStatistics   />} />
           <Route path="/user" element={<UserProfile   />} />
+          <Route path="/notifications" element={<UserNotificationComponent   />} />
           
           
         </Routes>
