@@ -13,7 +13,8 @@ const Login = ({ setUser }) => {
 
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
-  let navigate= useNavigate();
+  const navigate = useNavigate();
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -42,7 +43,14 @@ const Login = ({ setUser }) => {
 
       setSuccess('Prijava uspešna!');
       setError('');
-      navigate('/diary')
+
+      // Provera uloge korisnika
+      if (user.uloga === 'admin') {
+        navigate('/admin');
+      } else {
+        navigate('/diary');
+      }
+
       // Resetovanje formData
       setFormData({ email: '', password: '' });
     } catch (err) {

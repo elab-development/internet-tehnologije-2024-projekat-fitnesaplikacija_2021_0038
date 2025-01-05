@@ -22,6 +22,10 @@ class UserResource extends JsonResource
             'avatar' => $this->avatar,
             'level' => $this->level,
             'points' => $this->points,
+            'uloga' => $this->uloga,
+
+
+            
         ];
     }
 }

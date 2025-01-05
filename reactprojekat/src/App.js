@@ -35,14 +35,13 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login setUser={setUser} />} />
-          <Route path="/diary" element={<DiaryViewer   />} />   {/** za seminarski dopunjeno sa UPDATE operacijom */}
+          <Route path="/diary" element={<DiaryViewer   />} />   {/** za seminarski dopunjeno sa UPDATE operacijom, dodata i opcija za export u word */}
           <Route path="/trainings" element={<TrainingsCalendar   />} />
            
 
 
           <Route path="/exercises" element={<ExerciseList   />} />
-          <Route path="/admin/notification" element={<AdminNotificationComponent   />} />
-          <Route path="/trainings/stats" element={<TrainingStatistics   />} />
+          <Route path="/admin/notification" element={<AdminNotificationComponent   />} />  
           <Route path="/user" element={<UserProfile   />} />
           <Route path="/notifications" element={<UserNotificationComponent   />} />
           
