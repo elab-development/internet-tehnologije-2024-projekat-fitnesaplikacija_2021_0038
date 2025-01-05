@@ -46,6 +46,8 @@ const Navbar = ({ user, setUser }) => {
           <>
             <Link to="/admin">Admin Dashboard</Link>
             <Link to="/admin/notification">Upravljanje notifikacijama</Link>
+            <Link to="/admin/users">Upravljanje korisnicima</Link>
+
           </>
         )}
         {user && user.uloga !== 'admin' && (

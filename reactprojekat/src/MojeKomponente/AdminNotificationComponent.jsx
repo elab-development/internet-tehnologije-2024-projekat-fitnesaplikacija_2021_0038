@@ -125,7 +125,7 @@ const AdminNotificationComponent = () => {
               <th>Poruka</th>
               <th>Tip</th>
               <th>URL akcije</th>
-              <th>Akcije</th>
+             
             </tr>
           </thead>
           <tbody>
@@ -135,13 +135,7 @@ const AdminNotificationComponent = () => {
                 <td>{notification.message}</td>
                 <td>{notification.type || 'N/A'}</td>
                 <td>{notification.action_url || 'N/A'}</td>
-                <td>
-                  <button
-                    onClick={() => alert(`Notifikacija: ${notification.id} - Trenutno bez funkcionalnosti`)}
-                  >
-                    Pregledaj
-                  </button>
-                </td>
+               
               </tr>
             ))}
           </tbody>

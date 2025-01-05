@@ -43,11 +43,14 @@ function App() {
 
 
           <Route path="/exercises" element={<ExerciseList   />} />
+          <Route path="/user" element={<UserProfile   />} />
+          <Route path="/notifications" element={<UserNotificationComponent   />} />
+
+          
           <Route path="/admin" element={<AdminDashboard   />} />
           <Route path="/admin/users" element={<AdminUsers   />} />
           <Route path="/admin/notification" element={<AdminNotificationComponent   />} />  
-          <Route path="/user" element={<UserProfile   />} />
-          <Route path="/notifications" element={<UserNotificationComponent   />} />
+         
           
           
         </Routes>
