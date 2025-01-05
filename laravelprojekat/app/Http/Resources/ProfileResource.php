@@ -23,7 +23,7 @@ class ProfileResource extends JsonResource
             'height' => $this->height,
             'goal' => $this->goal,
             'calories_per_day' => $this->calories_per_day,
-            'profile_picture' => $this->profile_picture,
+            'profile_picture' => $this->profile_picture ? url('storage/' . $this->profile_picture) : null,
         ];
     }
 }

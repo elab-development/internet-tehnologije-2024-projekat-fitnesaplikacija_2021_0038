@@ -82,7 +82,7 @@ const TrainingStatistics = () => {
 
   return (
     <div className="training-statistics">
-      <h1>Statistike Treninga</h1>
+      <h1>Statistike treninga</h1>
       <div className="chart-container">
         <h2>Ukupno trajanje i kalorije</h2>
         <Bar data={chartData} options={{ responsive: true, plugins: { legend: { position: 'top' } } }} />

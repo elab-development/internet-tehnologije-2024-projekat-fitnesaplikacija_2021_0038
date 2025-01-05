@@ -1,11 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
 import useDiaryEntries from './useDiaryEntries';
 import axios from 'axios';
+import htmlDocx from 'html-docx-js/dist/html-docx'; // Dodato za izvoz u Word
 import './DiaryViewer.css';
 
 const DiaryViewer = () => {
   const { entries = [], loading, error, setEntries } = useDiaryEntries();
-  const [currentPage, setCurrentPage] = useState(0); 
+  const [currentPage, setCurrentPage] = useState(0);
   const [newEntry, setNewEntry] = useState({ date: '', content: '' });
   const [filterDate, setFilterDate] = useState('');
 
@@ -50,8 +51,9 @@ const DiaryViewer = () => {
       // Uzimamo HTML sadržaj iz contentEditable polja
       const contentHtml = editorRef.current.innerHTML;
 
-      const response = await axios.post('http://127.0.0.1:8000/api/diary-entries', 
-        { date: newEntry.date, content: contentHtml }, 
+      const response = await axios.post(
+        'http://127.0.0.1:8000/api/diary-entries',
+        { date: newEntry.date, content: contentHtml },
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -134,9 +136,11 @@ const DiaryViewer = () => {
 
       // Zamenimo stari entry novim
       const updatedEntry = response.data;
-      setEntries(entries.map((entry) => 
-        entry.id === editEntryId ? updatedEntry : entry
-      ));
+      setEntries(
+        entries.map((entry) =>
+          entry.id === editEntryId ? updatedEntry : entry
+        )
+      );
 
       alert('Uspešno ažuriran unos!');
     } catch (err) {
@@ -159,6 +163,78 @@ const DiaryViewer = () => {
     if (size) {
       formatText('fontSize', size);
     }
+  };
+
+  // -----------------------------------------------------
+  // Izvoz svih unosa (filtiranih) u Word (DOCX)
+  // Sa "notebook" (sveska) stilom i pokušajem čuvanja HTML formata.
+  // -----------------------------------------------------
+  const handleExportWord = () => {
+    if (filteredEntries.length === 0) {
+      alert('Nema unosa za export.');
+      return;
+    }
+
+    // Kombinujemo sve unose u jedan HTML string.
+    // Ubacujemo i malo custom stila da simuliramo izgled sveske.
+    let combinedHtml = `
+    <html>
+      <head>
+        <meta charset="utf-8" />
+        <style>
+          /* Primer CSS-a za "kockice" pozadinu (grid). */
+          body {
+            margin: 2cm;
+            font-family: Arial, sans-serif;
+            /* "Grid" efekat: kockice 25px, siva linija 1px */
+            background-image:
+              linear-gradient(to right, #d3d3d3 1px, transparent 1px),
+              linear-gradient(to bottom, #d3d3d3 1px, transparent 1px);
+            background-size: 25px 25px;
+          }
+          h2 {
+            font-size: 1.2em;
+            margin-bottom: 0.2em;
+            color: #333;
+          }
+          .page-break {
+            page-break-after: always;
+          }
+          /* Primer stila za tekst unutar unosa: zadržaćemo boju i eventualni inline stil iz HTML-a */
+          .entry-content {
+            margin-bottom: 1em;
+          }
+        </style>
+      </head>
+      <body>
+    `;
+
+    filteredEntries.forEach((entry, index) => {
+      combinedHtml += `
+        <h2>Datum: ${entry.date}</h2>
+        <div class="entry-content">
+          ${entry.content}
+        </div>
+      `;
+
+      // Ako nije poslednji unos, ubacujemo page-break za Word
+      if (index !== filteredEntries.length - 1) {
+        combinedHtml += '<div class="page-break"></div>';
+      }
+    });
+
+    combinedHtml += `
+      </body>
+    </html>`;
+
+    // Koristimo html-docx-js da konvertuje HTML u docx Blob
+    const docxBlob = htmlDocx.asBlob(combinedHtml);
+
+    // Generišemo link za preuzimanje
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(docxBlob);
+    link.download = 'dnevnik.docx'; // Naziv fajla
+    link.click();
   };
 
   if (loading) return <p>Učitavanje dnevnika...</p>;
@@ -287,6 +363,11 @@ const DiaryViewer = () => {
             onChange={(e) => setFilterDate(e.target.value)}
             placeholder="Filtriraj datum"
           />
+
+          {/* Dugme za izvoz u Word */}
+          <button className="export-word-button" onClick={handleExportWord}>
+            Eksportuj u Word
+          </button>
         </div>
 
         <div className="diary-right-page">
