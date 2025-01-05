@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
@@ -50,7 +51,11 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/notifications', [NotificationController::class, 'store']);
     Route::put('/notifications/{id}', [NotificationController::class, 'update']);
     Route::delete('/notifications/{id}', [NotificationController::class, 'destroy']);
+
+
+    Route::get('/admin/user-goals', [AdminController::class, 'userGoalsStatistics']);
+    Route::get('/admin/training-durations', [AdminController::class, 'trainingDurationStatistics']);
 });
 
-
+ 
  

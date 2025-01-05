@@ -151,7 +151,7 @@ const UserProfile = () => {
 
   return (
     <div className="user-profile">
-      <h1>{profile ? 'Your Profile' : 'Create Profile'}</h1>
+      <h1>{profile ? 'My profile' : 'Create profile'}</h1>
       <form onSubmit={handleSubmit} className="profile-form">
         <div className="form-group">
           <label htmlFor="age">Age:</label>

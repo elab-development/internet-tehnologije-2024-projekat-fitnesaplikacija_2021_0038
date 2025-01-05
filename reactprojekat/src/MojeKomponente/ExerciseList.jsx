@@ -141,11 +141,7 @@ const ExerciseList = () => {
                   className="exercise-description"
                   dangerouslySetInnerHTML={{ __html: exercise.description }}
                 ></div>
-                <img
-                  src="https://via.placeholder.com/300"
-                  alt={exercise.name}
-                  className="exercise-image"
-                />
+               
               </div>
             ))
           ) : (
