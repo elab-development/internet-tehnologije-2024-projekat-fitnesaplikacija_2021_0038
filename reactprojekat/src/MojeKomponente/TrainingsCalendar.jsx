@@ -33,7 +33,7 @@ const TrainingsCalendar = () => {
     const fetchHolidays = async () => {
       try {
         const response = await axios.get(
-          `https://calendarific.com/api/v2/holidays?api_key=PCcNid8JuFoiLsUEoXxU5jVHFbGL60d0&country=RS&year=${selectedYear}&month=${selectedMonth + 1}`
+          `https://calendarific.com/api/v2/holidays?api_key=e8GlJ7swaxyISTUNE30dJskssPcvZq50&country=RS&year=${selectedYear}&month=${selectedMonth + 1}`
         );
         const holidayData = response.data.response.holidays.map((holiday) => ({
           name: holiday.name,
