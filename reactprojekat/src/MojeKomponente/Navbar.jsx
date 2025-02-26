@@ -27,6 +27,8 @@ const Navbar = ({ user, setUser }) => {
       console.error('Greška prilikom odjave:', error);
     }
   };
+  console.log("User object:", user);
+  console.log("User role:", user?.user?.uloga); // Sigurnosna provera pre pristupa
 
   return (
     <header className="navbar">
@@ -42,7 +44,7 @@ const Navbar = ({ user, setUser }) => {
             <Link to="/login">Prijava</Link>
           </>
         )}
-        {user && user.uloga === 'admin' && (
+        {user && user.user.uloga === 'admin' && (
           <>
             <Link to="/admin">Admin Dashboard</Link>
             <Link to="/admin/notification">Upravljanje notifikacijama</Link>
@@ -50,7 +52,7 @@ const Navbar = ({ user, setUser }) => {
 
           </>
         )}
-        {user && user.uloga !== 'admin' && (
+        {user && user.user.uloga !== 'admin' && (
           <>
             <Link to="/user">Moj profil</Link>
             <Link to="/diary">Moj fitnes dnevnik</Link>
