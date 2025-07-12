@@ -11,6 +11,7 @@ const ExerciseList = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [sortOrder, setSortOrder] = useState('asc'); // 'asc' za rastuće, 'desc' za opadajuće
 
+
   useEffect(() => {
     // Učitavanje mišićnih grupa sa API-ja
     const fetchMuscleGroups = async () => {
@@ -31,7 +32,7 @@ const ExerciseList = () => {
       const fetchExercises = async () => {
         try {
           const response = await axios.get(
-            `https://wger.de/api/v2/exercise/?muscles=${selectedMuscleGroup}&language=2`
+            `https://wger.de/api/v2/exerciseinfo/?muscles=${selectedMuscleGroup}&language=2`
           );
           setExercises(response.data.results);
         } catch (error) {
@@ -50,19 +51,23 @@ const ExerciseList = () => {
     let updatedExercises = exercises;
 
     // Pretraga
-    if (searchQuery) {
-      updatedExercises = updatedExercises.filter((exercise) =>
-        exercise.name.toLowerCase().includes(searchQuery.toLowerCase())
-      );
+   if (searchQuery) {
+  updatedExercises = updatedExercises.filter((exercise) => {
+    const translation = exercise.translations.find(t => t.language === 2);
+    return translation?.name.toLowerCase().includes(searchQuery.toLowerCase());
+  });
     }
 
     // Sortiranje
-    updatedExercises = updatedExercises.sort((a, b) => {
-      if (sortOrder === 'asc') {
-        return a.name.localeCompare(b.name);
-      } else {
-        return b.name.localeCompare(a.name);
-      }
+     updatedExercises = updatedExercises.sort((a, b) => {
+  const aName = a.translations.find(t => t.language === 2)?.name || '';
+  const bName = b.translations.find(t => t.language === 2)?.name || '';
+
+  if (sortOrder === 'asc') {
+    return aName.localeCompare(bName);
+  } else {
+    return bName.localeCompare(aName);
+  }
     });
 
     setFilteredExercises(updatedExercises);
@@ -136,10 +141,10 @@ const ExerciseList = () => {
           {filteredExercises.length > 0 ? (
             filteredExercises.map((exercise) => (
               <div key={exercise.id} className="exercise-card">
-                <h2 className="exercise-name">{exercise.name}</h2>
+                <h2 className="exercise-name">{exercise.translations.find(t => t.language === 2)?.name}</h2>
                 <div
                   className="exercise-description"
-                  dangerouslySetInnerHTML={{ __html: exercise.description }}
+                  dangerouslySetInnerHTML={{ __html: exercise.translations.find(t=>t.language===2)?.description}}
                 ></div>
                
               </div>

@@ -4,8 +4,9 @@ import { FaDumbbell, FaUserAlt, FaRegEdit } from 'react-icons/fa';
 import { GiWeightLiftingUp, GiMeal } from 'react-icons/gi';  
 import { BiRun } from 'react-icons/bi';  
 import { IoIosPeople } from 'react-icons/io';  
-
+import {useNavigate} from 'react-router-dom';
 const HomePage = () => {
+  const navigate = useNavigate();
   /////////
   return (
     <div className="homepage-container"> 
@@ -15,7 +16,7 @@ const HomePage = () => {
         <div className="hero-content">
           <h2>Transformiši svoje telo & um</h2>
           <p>Kreiraj personalizovane treninge, prati svoj napredak i postigni svoje fitnes ciljeve uz našu sveobuhvatnu platformu.</p>
-          <button className="primary-btn">Započni sada</button>
+          <button className="primary-btn" onClick={()=>navigate('/register')}>Započni sada</button>
         </div>
         <div className="hero-image">
           <BiRun size={200} color="#e64a19" />
@@ -91,7 +92,7 @@ const HomePage = () => {
       {/* CTA Section */}
       <section className="cta-section" id="join">
         <h2>Prijavi se i započni svoju transformaciju</h2>
-        <button className="primary-btn">Kreiraj besplatan nalog</button>
+        <button className="primary-btn" onClick={()=>navigate('/register')}>Kreiraj besplatan nalog</button>
       </section>
 
      
