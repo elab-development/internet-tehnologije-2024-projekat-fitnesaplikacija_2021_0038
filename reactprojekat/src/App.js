@@ -16,6 +16,7 @@ import UserProfile from './MojeKomponente/UserProfile';
 import UserNotificationComponent from './MojeKomponente/UserNotificationComponent';
 import AdminDashboard from './MojeKomponente/AdminDashboard';
 import AdminUsers from './MojeKomponente/AdminUsers';
+import { Navigate } from 'react-router-dom';
 
 function App() {
   const [user, setUser] = useState(() => {
@@ -27,6 +28,11 @@ function App() {
     }
     return null;
   });
+const adminOnly = (component) => {
+    if (!user) return <Navigate to="/login" replace />;
+    if (user.user?.uloga !== 'admin') return <Navigate to="/unauthorized" replace />;
+    return component;
+  };
 
   return (
     <Router>
@@ -47,9 +53,18 @@ function App() {
           <Route path="/notifications" element={<UserNotificationComponent   />} />
 
           
-          <Route path="/admin" element={<AdminDashboard   />} />
-          <Route path="/admin/users" element={<AdminUsers   />} />
-          <Route path="/admin/notification" element={<AdminNotificationComponent   />} />  
+           {/* Admin rute - zaštićene */}
+          <Route path="/admin" element={adminOnly(<AdminDashboard />)} />
+          <Route path="/admin/users" element={adminOnly(<AdminUsers />)} />
+          <Route path="/admin/notification" element={adminOnly(<AdminNotificationComponent />)} />
+
+          {/* Error ruta */}
+          <Route path="/unauthorized" element={
+            <div style={{textAlign: 'center', marginTop: '50px'}}>
+              <h2>Nemate dozvolu za pristup ovoj stranici!</h2>
+              <p>Potrebne su admin privilegije.</p>
+            </div>
+          } /> 
          
           
           

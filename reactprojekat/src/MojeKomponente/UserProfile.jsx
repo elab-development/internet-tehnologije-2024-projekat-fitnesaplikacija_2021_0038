@@ -94,7 +94,7 @@ const UserProfile = () => {
       ? `http://127.0.0.1:8000/api/profiles/${profile.id}`
       : 'http://127.0.0.1:8000/api/profiles';
 
-    const method = profile ? 'PUT' : 'POST';
+    const method = profile ? 'POST' : 'POST';
 
     const body = new FormData();
     for (const key in formData) {
@@ -102,7 +102,9 @@ const UserProfile = () => {
         body.append(key, formData[key]);
       }
     }
-
+    if(profile){
+    body.append('_method','PUT');
+    }
     try {
       const response = await fetch(url, {
         method,
